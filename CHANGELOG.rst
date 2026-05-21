@@ -4,8 +4,52 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to `Semantic Versioning <https://semver.org/>`__.
 
-`Unreleased <https://github.com/jpadilla/pyjwt/compare/2.12.1...HEAD>`__
+`Unreleased <https://github.com/jpadilla/pyjwt/compare/2.13.0...HEAD>`__
 ------------------------------------------------------------------------
+
+`v2.13.0 <https://github.com/jpadilla/pyjwt/compare/2.12.1...2.13.0>`__
+-----------------------------------------------------------------------
+
+Security
+~~~~~~~~
+
+- Reject JWK JSON documents passed as raw HMAC secrets in
+  ``HMACAlgorithm.prepare_key`` to close an algorithm-confusion gap that
+  the existing PEM/SSH guard did not cover. Reported by @aradona91 in
+  `GHSA-xgmm-8j9v-c9wx <https://github.com/jpadilla/pyjwt/security/advisories/GHSA-xgmm-8j9v-c9wx>`__.
+- Bind the JWT header ``alg`` to ``PyJWK.algorithm_name`` during
+  verification so the caller's ``algorithms=[...]`` allow-list cannot be
+  bypassed when decoding with a ``PyJWK`` / ``PyJWKClient`` key. Reported
+  by @sushi-gif in `GHSA-jq35-7prp-9v3f <https://github.com/jpadilla/pyjwt/security/advisories/GHSA-jq35-7prp-9v3f>`__.
+- Reject non-``http(s)`` URI schemes in ``PyJWKClient`` so attacker-
+  influenced URIs cannot read local files or reach unintended schemes via
+  urllib's default ``file://`` / ``ftp://`` / ``data:`` handlers. Reported
+  by @KEIJOT in `GHSA-993g-76c3-p5m4 <https://github.com/jpadilla/pyjwt/security/advisories/GHSA-993g-76c3-p5m4>`__.
+- Preserve the cached JWK Set on fetch errors in ``PyJWKClient.fetch_data``.
+  The previous ``finally``-block ``put(None)`` pattern cleared the cache
+  on any transient outage, turning one bad JWKS request into application-
+  wide auth failure. Reported by @eddieran in `GHSA-fhv5-28vv-h8m8 <https://github.com/jpadilla/pyjwt/security/advisories/GHSA-fhv5-28vv-h8m8>`__.
+- Skip the unconditional base64 decode of the compact-form payload segment
+  when ``b64=false`` is set in the protected header, and require that
+  segment to be empty (RFC 7515 Appendix F detached form). Closes an
+  unauthenticated DoS amplifier. Reported by @thesmartshadow in
+  `GHSA-w7vc-732c-9m39 <https://github.com/jpadilla/pyjwt/security/advisories/GHSA-w7vc-732c-9m39>`__.
+
+Fixed
+~~~~~
+
+- Reject empty HMAC keys outright in ``HMACAlgorithm.prepare_key`` with
+  ``InvalidKeyError`` instead of accepting them with only a warning.
+  Thanks to @SnailSploit and @spartan8806 for independently flagging the
+  footgun.
+- Forward per-call ``options`` (including ``enforce_minimum_key_length``)
+  from ``PyJWT.decode`` through to ``PyJWS._verify_signature`` so the
+  option actually takes effect when set at the call site rather than only
+  on the ``PyJWT`` instance. Thanks to @WLUB for the report.
+- RFC 7797 §3 compliance for ``b64=false``: the encoder now auto-adds
+  ``"b64"`` to the ``crit`` header parameter, and the decoder rejects
+  tokens that set ``b64=false`` without listing it in ``crit``. Thanks to
+  @MachineLearning-Nerd for the report.
 
 Changed
 ~~~~~~~
