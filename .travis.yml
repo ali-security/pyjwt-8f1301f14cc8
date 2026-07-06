@@ -15,9 +15,9 @@ matrix:
 before_install:
   - sudo apt-get install python3-pip # required to install mypy
 install:
-  - pip install -U pip
-  - pip install -U tox coveralls
-  - sudo python3 -m pip install -U mypy # python3.4+ required to run mypy
+  - pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' -U pip
+  - pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' -U tox coveralls
+  - sudo python3 -m pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' -U mypy # python3.4+ required to run mypy
 script:
   - tox
   - mypy --ignore-missing-imports jwt

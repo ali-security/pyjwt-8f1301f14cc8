@@ -5,7 +5,7 @@ You can install ``PyJWT`` with ``pip``:
 
 .. code-block:: console
 
-    $ pip install pyjwt
+    $ pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' pyjwt
 
 Cryptographic Dependencies (Optional)
 -------------------------------------
@@ -16,7 +16,7 @@ cryptography_ library.
 
 .. code-block:: console
 
-    $ pip install cryptography
+    $ pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' cryptography
 
 .. _legacy-deps:
 
@@ -33,7 +33,7 @@ need to use the legacy implementations of the  digital signature algorithms:
 
 .. code-block:: console
 
-    $ pip install pycrypto ecdsa
+    $ pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' pycrypto ecdsa
 
 Once you have installed ``pycrypto`` and ``ecdcsa``, you can tell PyJWT to use
 the legacy implementations with ``jwt.register_algorithm()``. The following

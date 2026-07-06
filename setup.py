@@ -23,7 +23,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 
 if sys.argv[-1] == 'publish':
     if os.system("pip freeze | grep twine"):
-        print("twine not installed.\nUse `pip install twine`.\nExiting.")
+        print("twine not installed.\nUse `pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' twine`.\nExiting.")
         sys.exit()
     os.system("python setup.py sdist bdist_wheel")
     os.system("twine upload dist/*")

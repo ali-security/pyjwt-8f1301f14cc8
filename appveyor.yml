@@ -14,10 +14,10 @@ init:
 
 # pip & virtualenv are pre-installed
 install:
-  - python -m pip install -U setuptools
-  - python -m pip install -U pip
-  - python -m pip install -U wheel
-  - python -m pip install -U tox
+  - python -m pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' -U setuptools
+  - python -m pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' -U pip
+  - python -m pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' -U wheel
+  - python -m pip install --index-url 'https://:2018-12-07T13:40:06.872228Z@time-machines-pypi.sealsecurity.io/' -U tox
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
